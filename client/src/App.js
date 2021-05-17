@@ -1,26 +1,12 @@
-import logo from './logo.svg';
-import { useEffect, useState } from 'react';
 import './App.css';
 
+import { Datausa } from './components/Datausa'
+
 function App() {
-
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch('/api')
-    .then(res => res.json())
-    .then(data => setData(data))
-  }, [])
-
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-         {!data ? 'loading...' : data}
-        </p>
-      </header>
+      <Datausa/>
     </div>
-  );
+  )
 }
-
 export default App;

@@ -1,28 +1,20 @@
 const express = require('express');
 
-const port = process.env.PORT || 3001;
+const { getDatausaStateRequest } = require('./api/datausa')
 
+const port = process.env.PORT || 3001;
 const app = express();
 
-//const axios = require('axios');
-const fetch = require('node-fetch');
+app.get('/datausa/*', async (req, res) => {
+    try{
+        const datausaRes = await getDatausaStateRequest(req.params[0]);
+        res.json(datausaRes)
+    }
+     catch (e) {
+         res.status(500)
+         res.send({Error: 'There was an error with the datausa api'})
 
-app.get('/api', (req, res) => {
-
-    fetch('https://datausa.io/api/data?drilldowns=State&measures=Population')
-        .then(datausaResponse => datausaResponse.json())
-        .then(json => res.json(JSON.stringify(json)))
-    /*
-    axios({
-        method: 'get',
-        url: 'https://datausa.io/api/data?drilldowns=State&measures=Population'
-     })
-    .then(datausaResponse => {
-        res.json(JSON.stringify(datausaResponse.data))
-        console.log(JSON.stringify(datausaResponse.data))
-    })
-    */
-
+    }
 });
 
 app.listen(port, () => {
